@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contractly — Contratos profesionales en segundos</title>
+  <meta name="description" content="Genera contratos, propuestas y NDAs profesionales para freelancers en España. Con IA, en segundos, sin abogados." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #0f0e0d;
+      --ink-60: rgba(15,14,13,0.6);
+      --ink-20: rgba(15,14,13,0.12);
+      --paper: #f5f2ed;
+      --paper-deep: #ede9e2;
+      --accent: #c8502a;
+      --accent-light: #f0e8e3;
+      --mono: 'DM Sans', sans-serif;
+      --serif: 'DM Serif Display', serif;
+      --r: 6px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--mono);
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 2rem;
+      border-bottom: 1px solid var(--ink-20);
+      background: var(--paper);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo {
+      font-family: var(--serif);
+      font-size: 1.4rem;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+    .nav-links a { color: var(--ink-60); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-cta {
+      background: var(--ink);
+      color: var(--paper);
+      border: none;
+      padding: 8px 18px;
+      border-radius: var(--r);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: var(--mono);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.8; }
+
+    /* HERO */
+    .hero {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 5rem 2rem 3rem;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent-light);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 100px;
+      margin-bottom: 1.5rem;
+    }
+    .hero-badge::before { content: '●'; font-size: 8px; }
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      margin-bottom: 1.25rem;
+    }
+    h1 em { font-style: italic; color: var(--accent); }
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--ink-60);
+      max-width: 520px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+    }
+    .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 13px 28px;
+      border-radius: var(--r);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--mono);
+      transition: opacity 0.2s, transform 0.1s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn-secondary {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--ink-20);
+      padding: 13px 28px;
+      border-radius: var(--r);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: var(--mono);
+      transition: background 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-secondary:hover { background: var(--paper-deep); }
+
+    /* STATS */
+    .stats {
+      display: flex;
+      gap: 0;
+      justify-content: center;
+      max-width: 640px;
+      margin: 3rem auto 0;
+      border: 1px solid var(--ink-20);
+      border-radius: var(--r);
+      overflow: hidden;
+    }
+    .stat {
+      flex: 1;
+      padding: 1.25rem;
+      text-align: center;
+      border-right: 1px solid var(--ink-20);
+    }
+    .stat:last-child { border-right: none; }
+    .stat-val {
+      font-family: var(--serif);
+      font-size: 1.8rem;
+      letter-spacing: -0.03em;
+      display: block;
+      margin-bottom: 3px;
+    }
+    .stat-label { font-size: 12px; color: var(--ink-60); }
+
+    /* SECTION */
+    section { padding: 4rem 2rem; }
+    .container { max-width: 900px; margin: 0 auto; }
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    h2 {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+
+    /* GENERATOR */
+    #generador { background: var(--paper-deep); }
+    .gen-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    @media (max-width: 680px) { .gen-grid { grid-template-columns: 1fr; } }
+    .gen-form { display: flex; flex-direction: column; gap: 14px; }
+    .field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--ink-60);
+      margin-bottom: 5px;
+    }
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--ink-20);
+      border-radius: var(--r);
+      background: var(--paper);
+      font-family: var(--mono);
+      font-size: 14px;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--accent);
+    }
+    .field textarea { min-height: 80px; resize: vertical; }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .gen-output {
+      display: flex;
+      flex-direction: column;
+    }
+    .output-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .output-title {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--ink-60);
+    }
+    .output-actions { display: flex; gap: 8px; }
+    .btn-sm {
+      background: transparent;
+      border: 1px solid var(--ink-20);
+      border-radius: var(--r);
+      padding: 5px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: var(--mono);
+      color: var(--ink);
+      transition: background 0.15s;
+    }
+    .btn-sm:hover { background: var(--paper); }
+    .output-box {
+      flex: 1;
+      min-height: 420px;
+      background: var(--paper);
+      border: 1px solid var(--ink-20);
+      border-radius: var(--r);
+      padding: 1.25rem;
+      font-size: 13px;
+      line-height: 1.8;
+      color: var(--ink);
+      white-space: pre-wrap;
+      font-family: var(--mono);
+      overflow-y: auto;
+    }
+    .output-placeholder { color: var(--ink-60); font-style: italic; }
+    .gen-btn-wrap { margin-top: 14px; }
+    .btn-generate {
+      width: 100%;
+      background: var(--ink);
+      color: var(--paper);
+      border: none;
+      padding: 13px;
+      border-radius: var(--r);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--mono);
+      transition: opacity 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-generate:hover { opacity: 0.85; }
+    .btn-generate:disabled { opacity: 0.4; cursor: not-allowed; }
+    .spinner {
+      width: 14px; height: 14px;
+      border: 2px solid rgba(245,242,237,0.3);
+      border-top-color: var(--paper);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* TIPOS */
+    .tipos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 2rem;
+    }
+    .tipo-card {
+      background: var(--paper);
+      border: 1px solid var(--ink-20);
+      border-radius: var(--r);
+      padding: 1.25rem;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .tipo-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .tipo-icon {
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .tipo-name { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+    .tipo-desc { font-size: 12px; color: var(--ink-60); line-height: 1.5; }
+
+    /* PRECIOS */
+    #precios { background: var(--paper); }
+    .precios-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-top: 2rem;
+    }
+    .precio-card {
+      border: 1px solid var(--ink-20);
+      border-radius: var(--r);
+      padding: 1.75rem;
+      background: var(--paper);
+      position: relative;
+    }
+    .precio-card.featured {
+      border-color: var(--accent);
+      background: var(--ink);
+      color: var(--paper);
+    }
+    .precio-card.featured .precio-sub,
+    .precio-card.featured .precio-feature { color: rgba(245,242,237,0.65); }
+    .precio-badge {
+      position: absolute;
+      top: -11px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 12px;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+    .precio-plan { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; opacity: 0.6; }
+    .precio-amount {
+      font-family: var(--serif);
+      font-size: 2.8rem;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .precio-amount sup { font-size: 1.2rem; vertical-align: super; }
+    .precio-sub { font-size: 13px; color: var(--ink-60); margin-bottom: 1.25rem; }
+    .precio-features { list-style: none; margin-bottom: 1.5rem; }
+    .precio-feature { font-size: 13px; color: var(--ink-60); padding: 5px 0; border-bottom: 1px solid var(--ink-20); display: flex; gap: 8px; }
+    .precio-feature::before { content: '✓'; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+    .precio-card.featured .precio-feature::before { color: #f0a080; }
+    .btn-plan {
+      width: 100%;
+      padding: 11px;
+      border-radius: var(--r);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--mono);
+      border: 1px solid var(--ink-20);
+      background: transparent;
+      color: var(--ink);
+      transition: all 0.2s;
+    }
+    .btn-plan:hover { background: var(--paper-deep); }
+    .precio-card.featured .btn-plan {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+    .precio-card.featured .btn-plan:hover { opacity: 0.9; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--ink-20);
+      padding: 2rem;
+      text-align: center;
+      color: var(--ink-60);
+      font-size: 13px;
+    }
+    footer a { color: var(--ink-60); text-decoration: none; }
+    footer a:hover { color: var(--ink); }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--ink);
+      color: var(--paper);
+      padding: 10px 20px;
+      border-radius: var(--r);
+      font-size: 13px;
+      font-weight: 500;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.3s;
+      pointer-events: none;
+      z-index: 999;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    /* NOTICE */
+    .api-notice {
+      background: var(--accent-light);
+      border: 1px solid rgba(200,80,42,0.2);
+      border-radius: var(--r);
+      padding: 10px 14px;
+      font-size: 12px;
+      color: var(--accent);
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+
+    /* FREE COUNTER */
+    .free-counter {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--paper);
+      border: 1px solid var(--ink-20);
+      border-radius: var(--r);
+      padding: 8px 14px;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+    .free-dots { display: flex; gap: 4px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--ink-20); }
+    .dot.used { background: var(--accent); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="#">Contract<span>ly</span></a>
+  <div class="nav-links">
+    <a href="#tipos">Documentos</a>
+    <a href="#precios">Precios</a>
+    <a class="nav-cta" href="#generador">Probar gratis</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-badge">Nuevo — IA especializada en España</div>
+  <h1>Contratos profesionales<br><em>en segundos.</em></h1>
+  <p class="hero-sub">Genera contratos, propuestas y NDAs adaptados a la legislación española. Sin abogados, sin plantillas genéricas, sin perder tiempo.</p>
+  <div class="hero-actions">
+    <a class="btn-primary" href="#generador">Generar ahora — gratis</a>
+    <a class="btn-secondary" href="#tipos">Ver tipos de documentos</a>
+  </div>
+  <div class="stats">
+    <div class="stat">
+      <span class="stat-val">8</span>
+      <span class="stat-label">Tipos de documento</span>
+    </div>
+    <div class="stat">
+      <span class="stat-val">&lt;30s</span>
+      <span class="stat-label">Por documento</span>
+    </div>
+    <div class="stat">
+      <span class="stat-val">ES</span>
+      <span class="stat-label">Legislación española</span>
+    </div>
+    <div class="stat">
+      <span class="stat-val">€0</span>
+      <span class="stat-label">Para empezar</span>
+    </div>
+  </div>
+</div>
+
+<!-- TIPOS -->
+<section id="tipos">
+  <div class="container">
+    <div class="section-label">Documentos disponibles</div>
+    <h2>Todo lo que un<br>freelancer necesita</h2>
+    <div class="tipos-grid">
+      <div class="tipo-card">
+        <span class="tipo-icon">📄</span>
+        <div class="tipo-name">Contrato de servicios</div>
+        <div class="tipo-desc">Protege tu trabajo. Define alcance, precio, plazos y propiedad intelectual.</div>
+      </div>
+      <div class="tipo-card">
+        <span class="tipo-icon">📊</span>
+        <div class="tipo-name">Propuesta comercial</div>
+        <div class="tipo-desc">Cierra más clientes con una propuesta estructurada y profesional.</div>
+      </div>
+      <div class="tipo-card">
+        <span class="tipo-icon">🔒</span>
+        <div class="tipo-name">NDA / Confidencialidad</div>
+        <div class="tipo-desc">Protege tu información y la del cliente antes de empezar un proyecto.</div>
+      </div>
+      <div class="tipo-card">
+        <span class="tipo-icon">🧾</span>
+        <div class="tipo-name">Factura proforma</div>
+        <div class="tipo-desc">Presupuesto detallado con desglose de servicios e IVA.</div>
+      </div>
+      <div class="tipo-card">
+        <span class="tipo-icon">🔄</span>
+        <div class="tipo-name">Contrato de mantenimiento</div>
+        <div class="tipo-desc">Para servicios recurrentes mensuales. Incluye SLA y condiciones.</div>
+      </div>
+      <div class="tipo-card">
+        <span class="tipo-icon">⚠️</span>
+        <div class="tipo-name">Aviso legal / ToS</div>
+        <div class="tipo-desc">Términos de servicio para tu web o producto digital. Adaptado a RGPD.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GENERADOR -->
+<section id="generador">
+  <div class="container">
+    <div class="section-label">Generador con IA</div>
+    <h2>Crea tu documento ahora</h2>
+
+    <div class="gen-grid">
+      <div>
+        <div class="free-counter">
+          <span style="font-size:12px;color:var(--ink-60);">Documentos gratuitos usados</span>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div class="free-dots">
+              <div class="dot used" id="d1"></div>
+              <div class="dot" id="d2"></div>
+              <div class="dot" id="d3"></div>
+              <div class="dot" id="d4"></div>
+              <div class="dot" id="d5"></div>
+            </div>
+            <span style="font-size:12px;font-weight:600;" id="counter-text">0/5</span>
+          </div>
+        </div>
+        <div class="gen-form">
+          <div class="field">
+            <label>Tipo de documento</label>
+            <select id="doc-type">
+              <option value="contrato_servicios">Contrato de servicios freelance</option>
+              <option value="propuesta_proyecto">Propuesta comercial de proyecto</option>
+              <option value="nda">Acuerdo de confidencialidad (NDA)</option>
+              <option value="factura_proforma">Factura proforma / Presupuesto</option>
+              <option value="mantenimiento">Contrato de mantenimiento mensual</option>
+              <option value="aviso_legal">Aviso legal / Términos de servicio</option>
+            </select>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Tu nombre / empresa</label>
+              <input id="seller" type="text" placeholder="Alex Bots / DevBots Alex" />
+            </div>
+            <div class="field">
+              <label>Nombre del cliente</label>
+              <input id="buyer" type="text" placeholder="TradingCo S.L." />
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Servicio / proyecto</label>
+              <input id="service" type="text" placeholder="EA para MT5 XAUUSD" />
+            </div>
+            <div class="field">
+              <label>Importe (€)</label>
+              <input id="price" type="text" placeholder="250" />
+            </div>
+          </div>
+          <div class="field">
+            <label>Detalles adicionales</label>
+            <textarea id="details" placeholder="Plazo de entrega, revisiones incluidas, condiciones especiales..."></textarea>
+          </div>
+          <div class="gen-btn-wrap">
+            <button class="btn-generate" id="gen-btn" onclick="generateDoc()">
+              <span id="btn-text">Generar documento</span>
+            </button>
+          </div>
+          <div class="api-notice">
+            <strong>Para activar la IA:</strong> Añade tu API key de Anthropic en el archivo <code>config.js</code>. Obtén una gratis en <a href="https://console.anthropic.com" target="_blank" style="color:var(--accent);text-decoration:underline;">console.anthropic.com</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="gen-output">
+        <div class="output-header">
+          <span class="output-title">Documento generado</span>
+          <div class="output-actions">
+            <button class="btn-sm" onclick="copyDoc()">Copiar</button>
+            <button class="btn-sm" onclick="downloadDoc()">Descargar .txt</button>
+          </div>
+        </div>
+        <div class="output-box" id="output-box">
+          <span class="output-placeholder">Tu documento aparecerá aquí. Rellena los campos de la izquierda y pulsa "Generar documento".</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRECIOS -->
+<section id="precios">
+  <div class="container">
+    <div class="section-label">Planes</div>
+    <h2>Simple, sin sorpresas</h2>
+    <div class="precios-grid">
+      <div class="precio-card">
+        <div class="precio-plan">Gratis</div>
+        <div class="precio-amount"><sup>€</sup>0</div>
+        <div class="precio-sub">Para probar</div>
+        <ul class="precio-features">
+          <li class="precio-feature">5 documentos al mes</li>
+          <li class="precio-feature">Todos los tipos de documento</li>
+          <li class="precio-feature">Copiar y descargar</li>
+        </ul>
+        <button class="btn-plan" onclick="scrollToGen()">Empezar gratis</button>
+      </div>
+
+      <div class="precio-card featured">
+        <div class="precio-badge">Más popular</div>
+        <div class="precio-plan">Pro</div>
+        <div class="precio-amount"><sup>€</sup>9</div>
+        <div class="precio-sub">por mes, cancela cuando quieras</div>
+        <ul class="precio-features">
+          <li class="precio-feature">Documentos ilimitados</li>
+          <li class="precio-feature">Plantillas guardadas</li>
+          <li class="precio-feature">Logo y branding propio</li>
+          <li class="precio-feature">Export a PDF y Word</li>
+          <li class="precio-feature">Soporte prioritario</li>
+        </ul>
+        <button class="btn-plan" onclick="showComingSoon()">Activar Pro</button>
+      </div>
+
+      <div class="precio-card">
+        <div class="precio-plan">Agencia</div>
+        <div class="precio-amount"><sup>€</sup>39</div>
+        <div class="precio-sub">por mes, hasta 5 usuarios</div>
+        <ul class="precio-features">
+          <li class="precio-feature">Todo lo de Pro</li>
+          <li class="precio-feature">Múltiples usuarios</li>
+          <li class="precio-feature">Panel de equipo</li>
+          <li class="precio-feature">API access</li>
+        </ul>
+        <button class="btn-plan" onclick="showComingSoon()">Contactar</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Contractly &copy; 2026 &mdash; Hecho en España &mdash; <a href="#">Privacidad</a> &middot; <a href="#">Términos</a></p>
+  <p style="margin-top:6px;font-size:12px;">Los documentos generados son orientativos. Para operaciones de alto riesgo, consulta un abogado.</p>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const ANTHROPIC_API_KEY = '';
+
+  const typeLabels = {
+    contrato_servicios: 'contrato de prestación de servicios freelance',
+    propuesta_proyecto: 'propuesta comercial de proyecto',
+    nda: 'acuerdo de confidencialidad (NDA)',
+    factura_proforma: 'factura proforma o presupuesto detallado',
+    mantenimiento: 'contrato de mantenimiento y soporte mensual',
+    aviso_legal: 'aviso legal y términos de servicio para web'
+  };
+
+  let docsUsed = parseInt(localStorage.getItem('contractly_used') || '0');
+  updateCounter();
+
+  function updateCounter() {
+    document.getElementById('counter-text').textContent = docsUsed + '/5';
+    for (let i = 1; i <= 5; i++) {
+      const dot = document.getElementById('d' + i);
+      if (dot) dot.classList.toggle('used', i <= docsUsed);
+    }
+  }
+
+  async function generateDoc() {
+    if (docsUsed >= 5 && !ANTHROPIC_API_KEY) {
+      showToast('Límite gratuito alcanzado. Activa el plan Pro.');
+      return;
+    }
+
+    const type = document.getElementById('doc-type').value;
+    const seller = document.getElementById('seller').value.trim() || 'El Proveedor';
+    const buyer = document.getElementById('buyer').value.trim() || 'El Cliente';
+    const service = document.getElementById('service').value.trim() || 'servicios profesionales';
+    const price = document.getElementById('price').value.trim() || 'acordado';
+    const details = document.getElementById('details').value.trim();
+
+    const btn = document.getElementById('gen-btn');
+    const btnText = document.getElementById('btn-text');
+    const output = document.getElementById('output-box');
+
+    btn.disabled = true;
+    btnText.innerHTML = '<span class="spinner"></span> Generando...';
+    output.innerHTML = '<span class="output-placeholder">Generando tu documento...</span>';
+
+    const prompt = `Genera un ${typeLabels[type]} profesional y completo.
+
+Datos:
+- Proveedor: ${seller}
+- Cliente: ${buyer}
+- Servicio: ${service}
+- Precio: €${price}
+- Detalles: ${details || 'Estándar'}
+- Fecha: ${new Date().toLocaleDateString('es-ES', {day:'2-digit', month:'long', year:'numeric'})}
+- Jurisdicción: España (Ley española, BOE, RGPD donde aplique)
+
+Instrucciones:
+- Documento completo y profesional, listo para firmar
+- Incluye todas las cláusulas relevantes para el tipo de documento
+- Derecho español aplicable
+- Sin placeholders — usa datos reales o valores razonables si faltan
+- Formato limpio con secciones numeradas
+- Máximo 600 palabras
+
+Solo el documento, sin introducción.`;
+
+    try {
+      const apiKey = ANTHROPIC_API_KEY || window.ANTHROPIC_KEY || '';
+      if (!apiKey) {
+        output.textContent = getDemoDoc(type, seller, buyer, service, price, details);
+        docsUsed++;
+        localStorage.setItem('contractly_used', docsUsed);
+        updateCounter();
+        showToast('Documento generado (modo demo)');
+        btn.disabled = false;
+        btnText.textContent = 'Generar documento';
+        return;
+      }
+
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1200,
+          messages: [{ role: 'user', content: prompt }]
+        })
+      });
+      const data = await res.json();
+      const text = data.content?.map(i => i.text || '').join('\n') || 'Error al generar.';
+      output.textContent = text;
+      docsUsed++;
+      localStorage.setItem('contractly_used', docsUsed);
+      updateCounter();
+      showToast('Documento generado');
+    } catch (e) {
+      output.textContent = getDemoDoc(type, seller, buyer, service, price, details);
+      showToast('Modo demo — añade API key para IA real');
+    }
+
+    btn.disabled = false;
+    btnText.textContent = 'Generar documento';
+  }
+
+  function getDemoDoc(type, seller, buyer, service, price, details) {
+    const today = new Date().toLocaleDateString('es-ES', {day:'2-digit', month:'long', year:'numeric'});
+    if (type === 'contrato_servicios') {
+      return `CONTRATO DE PRESTACIÓN DE SERVICIOS
+
+En Madrid, a ${today}
+
+PARTES
+
+PROVEEDOR: ${seller}, en adelante "el Prestador".
+CLIENTE: ${buyer}, en adelante "el Cliente".
+
+OBJETO
+
+El Prestador se compromete a realizar los siguientes servicios:
+${service}
+
+PRECIO Y FORMA DE PAGO
+
+El precio total acordado es de €${price} (IVA no incluido).
+Forma de pago: 50% al inicio del proyecto, 50% a la entrega.
+
+PLAZO DE ENTREGA
+
+${details || 'El plazo de entrega se acordará entre las partes al inicio del proyecto.'}
+
+PROPIEDAD INTELECTUAL
+
+Una vez satisfecho el pago íntegro, todos los derechos de propiedad intelectual sobre los entregables serán transferidos al Cliente.
+
+CONFIDENCIALIDAD
+
+Ambas partes se comprometen a mantener confidencial cualquier información recibida en el marco de este contrato.
+
+RESOLUCIÓN
+
+Cualquier controversia se resolverá según la legislación española vigente, con sumisión a los Juzgados y Tribunales de Madrid.
+
+Firmado:
+
+${seller}                    ${buyer}
+_____________________        _____________________`;
+    }
+    return `[Documento de demostración para: ${type}]\n\nAñade tu API key de Anthropic en config.js para generar documentos reales con IA.\n\nObtén tu key gratuita en: console.anthropic.com`;
+  }
+
+  function copyDoc() {
+    const text = document.getElementById('output-box').textContent;
+    if (text.includes('aparecerá aquí')) { showToast('Genera un documento primero'); return; }
+    navigator.clipboard.writeText(text).then(() => showToast('Copiado al portapapeles'));
+  }
+
+  function downloadDoc() {
+    const text = document.getElementById('output-box').textContent;
+    if (text.includes('aparecerá aquí')) { showToast('Genera un documento primero'); return; }
+    const type = document.getElementById('doc-type').value;
+    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `contractly_${type}_${Date.now()}.txt`;
+    a.click();
+    showToast('Descargando...');
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  function scrollToGen() { document.getElementById('generador').scrollIntoView({ behavior: 'smooth' }); }
+  function showComingSoon() { showToast('Próximamente — conecta Stripe para activar pagos'); }
+</script>
+</body>
+</html>
